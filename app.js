@@ -30,12 +30,12 @@ const beforeAfter = async (req, res, next) => {
         await Todo.create({title: "do the dishes", done: false})
         await Todo.create({title: "make dinner", done: false})
         await Todo.create({title: "go to bad", done: false})
-    } catch (e) {
-
+    } catch (err) {
+        console.error(err)
     }
 }
 
-// beforeAfter()
+beforeAfter()
 
 
 

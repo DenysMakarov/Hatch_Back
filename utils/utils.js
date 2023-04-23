@@ -1,6 +1,6 @@
 
 module.exports = {
-    replaceSpacesWithUnderscores(str) {
+    replaceSpacesWithUnderscores: (str) => {
         return str.split(' ').join('_');
     }
 }

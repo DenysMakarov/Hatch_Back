@@ -1,23 +1,45 @@
 const {Todo} = require("../models/models");
-const {Op} = require("sequelize");
+const {Op, literal} = require("sequelize");
 
 module.exports = {
     createTodo: async (title, done=false) => {
-        return await Todo.create({title, done});
+        const [todo, created] = await Todo.findOrCreate({
+            where: { title },
+            defaults: { done },
+        });
+        return {todo, created}
     },
 
     getAllTodos: async () => {
         return await Todo.findAll({
+            order: literal("lower(title) ASC")
+        })
+    },
+
+    getAllDoneTodos: async () => {
+        return await Todo.findAll({
+            where: {
+                done: true
+            },
             order: [['title', 'ASC']]
         })
     },
 
-    getTodo: async (id) => {
+    getAllUndoneTodos: async () => {
+        return await Todo.findAll({
+            where: {
+                done: false
+            },
+            order: [['title', 'ASC']]
+        })
+    },
+
+    getTodoById: async (id) => {
         return await Todo.findByPk(id)
     },
 
     getTodoByTitle: async (title) => {
-        return await Todo.findOne({
+       return await Todo.findOne({
             where: {
                 title: {
                     [Op.iLike]: `%${title}%`

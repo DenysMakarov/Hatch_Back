@@ -10,11 +10,8 @@ module.exports = {
     createTodo: async (req, res, next) => {
         try {
             const {title, done} = req.body
-            const todoExist = await todoService.getTodoByTitle(title)
-            if (todoExist) {
-                throw ApiError.conflict('todo has already exist')
-            }
-            const todo = await todoService.createTodo(replaceSpacesWithUnderscores(title), done)
+            const {todo, created} = await todoService.createTodo(title, done)
+            if (!created) return next(ApiError.conflict('already created'))
             return res.status(201).json(todo)
         } catch (err) {
             next(ApiError.serverError('smt wrong with server'))
@@ -37,10 +34,28 @@ module.exports = {
         }
     },
 
-    getTodo: async (req, res, next) => {
+    getAllDoneTodos: async (req, res, next) => {
+        try {
+            const todos = await todoService.getAllDoneTodos()
+            return res.json(todos)
+        } catch (err) {
+            next(ApiError.serverError('smt wrong with server'))
+        }
+    },
+
+    getAllUndoneTodos: async (req, res, next) => {
+        try {
+            const todos =  await todoService.getAllUndoneTodos()
+            return res.json(todos)
+        } catch (err) {
+            next(ApiError.serverError('smt wrong with server'))
+        }
+    },
+
+    getTodoById: async (req, res, next) => {
         const {id} = req.params
         try {
-            const todo = await todoService.getTodo(id)
+            const todo = await todoService.getTodoById(id)
             return res.json(todo)
         } catch (e) {
             next(ApiError.serverError('smt wrong with server'))
@@ -52,8 +67,8 @@ module.exports = {
         try {
             const todo = await todoService.getTodoByTitle(title)
             return res.json(todo)
-        } catch (e) {
-            next(ApiError.serverError('smt wrong with server'))
+        } catch (err) {
+            next(err)
         }
     },
 
@@ -64,8 +79,8 @@ module.exports = {
         try {
             const todo = await todoService.updateTitle(title, id)
             return res.json(todo)
-        } catch (e) {
-            next(ApiError.serverError('smt wrong with server'))
+        } catch (err) {
+            next(err)
         }
     },
 
@@ -75,8 +90,8 @@ module.exports = {
         try {
             const todo = await todoService.updateDone(id)
             return res.json(todo)
-        } catch (e) {
-            next(ApiError.serverError('smt wrong with server'))
+        } catch (err) {
+            next(err)
         }
     },
 
@@ -85,8 +100,8 @@ module.exports = {
         try {
             const todo = await todoService.deleteTodo(id)
             return res.send('done')
-        } catch (e) {
-            next(ApiError.serverError('smt wrong with server'))
+        } catch (err) {
+            next(err)
         }
     },
 
@@ -94,8 +109,8 @@ module.exports = {
         try {
             const result = await todoService.deleteAllTodos()
             return res.json(result)
-        } catch (e) {
-            next(ApiError.serverError('smt wrong with server'))
+        } catch (err) {
+            next(err)
         }
     }
 
