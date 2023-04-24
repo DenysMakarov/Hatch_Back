@@ -22,11 +22,20 @@ module.exports = {
         try {
             const doneTodos = [];
             const undoneTodos = []
-            const todos = await todoService.getAllTodos()
-            todos.forEach(todo => {
-                if (todo.done) doneTodos.push(todo)
-                else undoneTodos.push(todo)
-            })
+            let page = 1
+            let hasNext = true
+            const pageSize = 100
+
+            while (hasNext) {
+                const todos = await todoService.getAllTodos(page, pageSize)
+                todos.forEach(todo => {
+                    if (todo.done) doneTodos.push(todo)
+                    else undoneTodos.push(todo)
+                })
+                page +=1
+                hasNext = todos.length === pageSize
+            }
+
             return res.json({doneTodos, undoneTodos})
         } catch (err) {
             next(ApiError.serverError(`smt wrong with server: ${err}`))
@@ -44,7 +53,7 @@ module.exports = {
 
     getAllUndoneTodos: async (req, res, next) => {
         try {
-            const todos =  await todoService.getAllUndoneTodos()
+            const todos = await todoService.getAllUndoneTodos()
             return res.json(todos)
         } catch (err) {
             next(ApiError.serverError(`smt wrong with server: ${err}`))
@@ -56,7 +65,7 @@ module.exports = {
         try {
             const todo = await todoService.getTodoById(id)
             return res.json(todo)
-        } catch (e) {
+        } catch (err) {
             next(ApiError.serverError(`smt wrong with server: ${err}`))
         }
     },

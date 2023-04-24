@@ -14,8 +14,11 @@ module.exports = {
         return null
     },
 
-    getAllTodos: async () => {
+    getAllTodos: async (page, pageSize) => {
+        const offset = (page -1) * pageSize
         return await Todo.findAll({
+            offset,
+            limit: pageSize,
             order: [
                 [literal("lower(title)"), 'ASC'],
                 ['updatedAt', 'DESC']
@@ -40,7 +43,10 @@ module.exports = {
             where: {
                 done: false
             },
-            order: [['title', 'ASC']]
+            order: [
+                [literal("lower(title)"), 'ASC'],
+                ['updatedAt', 'DESC']
+            ]
         })
     },
 
