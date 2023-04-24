@@ -5,14 +5,13 @@ const express = require('express')
 const router = require("./routes");
 const sequelize = require("./config/config");
 const {Todo} = require('./models/models')
-const PORT = process.env.PORT || 7000;
 
 
-const app = express()
-app.use(cors())
-app.use(express.json())
-app.use(express.static(path.resolve(__dirname, 'static')))
-app.use('/api', router)
+const index = express()
+index.use(cors())
+index.use(express.json())
+index.use(express.static(path.resolve(__dirname, 'static')))
+index.use('/api', router)
 
 
 const beforeAfter = async (req, res, next) => {
@@ -35,15 +34,16 @@ const beforeAfter = async (req, res, next) => {
     }
 }
 
-beforeAfter()
+// beforeAfter()
 
 
+const PORT = process.env.PORT || 7000;
 
 const start = async () => {
     try {
         await sequelize.authenticate()
         await sequelize.sync()
-        app.listen(5500, () => console.log('server has started on ' + PORT + ' port'))
+        index.listen(PORT, () => console.log('server has started on ' + PORT + ' port'))
     } catch (err) {
         console.log(err)
     }

@@ -14,6 +14,9 @@ module.exports = {
         return null
     },
 
+    /*
+    * pagination load only in getAllTodos because only this func is working with app
+    * */
     getAllTodos: async (page, pageSize) => {
         const offset = (page -1) * pageSize
         return await Todo.findAll({

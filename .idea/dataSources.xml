@@ -15,5 +15,19 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/todo</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="hatch" uuid="9b2aca11-5c80-45cc-86a0-333f6e682bd2">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://hatchdatabase.cdqbqb5oryfn.us-east-2.rds.amazonaws.com:5432/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="postgres@hatchdatabase.cdqbqb5oryfn.us-east-2.rds.amazonaws.com" uuid="d45d9910-69c2-46d2-b9bc-69d344d92ffe">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://hatchdatabase.cdqbqb5oryfn.us-east-2.rds.amazonaws.com/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
