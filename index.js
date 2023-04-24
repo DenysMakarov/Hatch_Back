@@ -34,7 +34,7 @@ const beforeAfter = async (req, res, next) => {
     }
 }
 
-// beforeAfter()
+beforeAfter()
 
 
 const PORT = process.env.PORT || 7000;
