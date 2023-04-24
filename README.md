@@ -7,9 +7,10 @@
  - end: Monday morning
 ```
 
-##Description:
-###FrontEnd:
-####technology:
+## Description:
+### FrontEnd:
+#### technology:
+
 
         1 React.js
         
@@ -21,23 +22,25 @@
         
         5 Sass
 
-###BackEnd:
-####technology:
+### BackEnd:
+#### technology:
 
-    1 Node.js
-    
-    2 Express.js
-    
-    3 Sequelize
-    
-    4 Postgres
+        1 Node.js
+        
+        2 Express.js
+        
+        3 Sequelize
+        
+        4 Postgres
 
 
 
-##requirements:
-####All is done
+## requirements:
 
-##optional:
+#### All is done
+
+
+## optional:
     + back-end the front-end is updating in 1 minute
     + added features : 1) update title, 2) delete todo by id
     + deploy on EC2 and amplify AWS
@@ -46,7 +49,7 @@
     - did not have enough time to create test cases unfortunately(
 
 
-##In addition:
+## In addition:
 Initially, I created hooks to get data but eventually, I made a decision to use Redux and Saga to keep state in the store. Not sure what is a better way, and it would be very interesting to know your opinion about this
 
 
