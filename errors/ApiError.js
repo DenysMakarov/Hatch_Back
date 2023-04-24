@@ -8,7 +8,6 @@ class ApiError extends Error {
         this.msg = msg;
     }
 
-
     static notFound(msg) {
         return new ApiError(404, msg)
     }

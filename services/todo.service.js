@@ -3,16 +3,23 @@ const {Op, literal} = require("sequelize");
 
 module.exports = {
     createTodo: async (title, done=false) => {
-        const [todo, created] = await Todo.findOrCreate({
-            where: { title },
-            defaults: { done },
-        });
-        return {todo, created}
+        if (title){
+            const [todo, created] = await Todo.findOrCreate({
+                where: { title },
+                defaults: { done },
+            });
+            console.log(todo.dataValues)
+            return {todo, created}
+        }
+        return null
     },
 
     getAllTodos: async () => {
         return await Todo.findAll({
-            order: literal("lower(title) ASC")
+            order: [
+                [literal("lower(title)"), 'ASC'],
+                ['updatedAt', 'DESC']
+            ]
         })
     },
 
@@ -21,7 +28,10 @@ module.exports = {
             where: {
                 done: true
             },
-            order: [['title', 'ASC']]
+            order: [
+                [literal("lower(title)"), 'ASC'],
+                ['updatedAt', 'DESC']
+            ]
         })
     },
 
@@ -45,6 +55,22 @@ module.exports = {
                     [Op.iLike]: `%${title}%`
                 }
             }
+        })
+    },
+
+    getAllDoneTodosByTitle: async (title) => {
+        return await Todo.findAll({
+            where: {
+                title: {
+                    [Op.iLike]: `%${title}%`
+                },
+                done: true
+            },
+            order: [
+                [literal("lower(title)"), 'ASC'],
+                ['updatedAt', 'DESC']
+            ],
+            limit: 10
         })
     },
 
