@@ -8,14 +8,13 @@ module.exports = {
                 where: { title },
                 defaults: { done },
             });
-            console.log(todo.dataValues)
             return {todo, created}
         }
         return null
     },
 
     /*
-    * pagination load only in getAllTodos because only this func is working with app
+    * pagination load only in getAllTodos because only this func is using app, other load func is auxiliary
     * */
     getAllTodos: async (page, pageSize) => {
         const offset = (page -1) * pageSize

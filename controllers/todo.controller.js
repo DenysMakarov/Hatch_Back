@@ -1,6 +1,5 @@
 const todoService = require('../services/todo.service')
 const ApiError = require("../errors/ApiError");
-const {replaceSpacesWithUnderscores} = require("../utils/utils");
 
 /*
 * ApiError -> like a template
@@ -14,7 +13,8 @@ module.exports = {
             if (!created) return next(ApiError.conflict('already created'))
             return res.status(201).json(todo)
         } catch (err) {
-            next(next(ApiError.serverError(`smt wrong with server: ${err}`)))
+            console.error(`Error: ${err}`);
+            next(ApiError.serverError(`smt wrong with server: ${err}`))
         }
     },
 
@@ -32,7 +32,7 @@ module.exports = {
                     if (todo.done) doneTodos.push(todo)
                     else undoneTodos.push(todo)
                 })
-                page +=1
+                page += 1
                 hasNext = todos.length === pageSize
             }
 
@@ -64,6 +64,7 @@ module.exports = {
         const {id} = req.params
         try {
             const todo = await todoService.getTodoById(id)
+            if (!todo) return next(ApiError.notFound('not found'))
             return res.json(todo)
         } catch (err) {
             next(ApiError.serverError(`smt wrong with server: ${err}`))
@@ -74,13 +75,14 @@ module.exports = {
         const {title} = req.params
         try {
             const todo = await todoService.getTodoByTitle(title)
+            if (!todo) return next(ApiError.notFound('not found'))
             return res.json(todo)
         } catch (err) {
             next(ApiError.serverError(`smt wrong with server: ${err}`))
         }
     },
 
-    getAllTodosByTitle: async (req, res, next) => {
+    getAllDoneTodosByTitle: async (req, res, next) => {
         try {
             const {title} = req.params
             const todos = await todoService.getAllDoneTodosByTitle(title)
@@ -96,6 +98,7 @@ module.exports = {
 
         try {
             const todo = await todoService.updateTitle(title, id)
+            if (!todo) return next(ApiError.notFound('not found'))
             return res.json(todo)
         } catch (err) {
             next(next(ApiError.serverError(`smt wrong with server: ${err}`)))
@@ -107,6 +110,7 @@ module.exports = {
 
         try {
             const todo = await todoService.updateDone(id)
+            if (!todo) return next(ApiError.notFound('not found'))
             return res.json(todo)
         } catch (err) {
             next(next(ApiError.serverError(`smt wrong with server: ${err}`)))
