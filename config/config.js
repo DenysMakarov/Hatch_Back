@@ -8,8 +8,9 @@ module.exports = new Sequelize(
     {
         dialect: 'postgres',
         host: 'hatchdatabase.cdqbqb5oryfn.us-east-2.rds.amazonaws.com',
-        port: 5432,
-    }
+        port: 5432
+    },
+
 )
 
 // module.exports = new Sequelize(

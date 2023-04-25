@@ -33,6 +33,12 @@
         
         4 Postgres
 
+        5 AWS RDS
+        
+        6 AWS EC2
+        
+        7 AWS Amplify
+
 
 
 ## requirements:
@@ -43,7 +49,7 @@
 ## optional:
     + back-end the front-end is updating in 1 minute
     + added features : 1) update title, 2) delete todo by id
-    + deploy on EC2 and amplify AWS
+    + deploy on EC2 and amplify AWS (last update: 2023-04-25: because my aws free account no longer supports free deployment(, the project has been replaced with netlify and render)
     + database located on AWS RDS
 
     - did not have enough time to create test cases unfortunately(
@@ -52,7 +58,8 @@
 ## In addition:
 Initially, I created hooks to get data but eventually, I made a decision to use Redux and Saga to keep state in the store. Not sure what is a better way, and it would be very interesting to know your opinion about this
 
-
+### `netlify link`:
+    https://hatch-front.netlify.app/
 
 ## Available Scripts
 
