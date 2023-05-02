@@ -1,8 +1,10 @@
 const {Todo} = require("../models/models");
 const {Op, literal} = require("sequelize");
+const ApiError = require("../errors/ApiError");
 
 module.exports = {
     createTodo: async (title, done=false) => {
+        console.log('asdsa')
         if (title){
             const [todo, created] = await Todo.findOrCreate({
                 where: { title },
@@ -61,6 +63,16 @@ module.exports = {
             where: {
                 title: {
                     [Op.iLike]: `%${title}%`
+                }
+            }
+        })
+    },
+
+    getTodoByStrongTitle: async (title) => {
+        return await Todo.findOne({
+            where: {
+                title: {
+                    [Op.eq]: title
                 }
             }
         })

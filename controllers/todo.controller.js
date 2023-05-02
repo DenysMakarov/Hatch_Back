@@ -82,6 +82,7 @@ module.exports = {
         }
     },
 
+
     getAllDoneTodosByTitle: async (req, res, next) => {
         try {
             const {title} = req.params
@@ -95,11 +96,12 @@ module.exports = {
     updateTitle: async (req, res, next) => {
         const {id} = req.params
         const {title} = req.body
-
         try {
-            const todo = await todoService.updateTitle(title, id)
-            if (!todo) return next(ApiError.notFound('not found'))
-            return res.json(todo)
+            const todo = await todoService.getTodoByStrongTitle(title)
+            console.log(todo)
+            if (todo) return next(ApiError.conflict('has already exist'))
+            const response = await todoService.updateTitle(title, id)
+            return res.json(response)
         } catch (err) {
             next(next(ApiError.serverError(`smt wrong with server: ${err}`)))
         }
